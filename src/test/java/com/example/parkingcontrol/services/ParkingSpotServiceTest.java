@@ -116,10 +116,10 @@ class ParkingSpotServiceTest {
         when(parkingSpotRepository.findById(parkingSpot.getId())).thenReturn(Optional.of(parkingSpot));
 
         // When
-        ParkingSpotModel ParkingSpotUpdateRequest = new ParkingSpotModel();
+        ParkingSpotModel parkingSpotUpdateRequest = new ParkingSpotModel();
         String owner = "Billy";
-        ParkingSpotUpdateRequest.setOwner(owner);
-        underTest.update(parkingSpot.getId(), ParkingSpotUpdateRequest);
+        parkingSpotUpdateRequest.setOwner(owner);
+        underTest.update(parkingSpot.getId(), parkingSpotUpdateRequest);
 
         // Then
         ArgumentCaptor<ParkingSpotModel> parkingSpotModelArgumentCaptor = ArgumentCaptor.forClass(ParkingSpotModel.class);
@@ -128,7 +128,7 @@ class ParkingSpotServiceTest {
 
         ParkingSpotModel capturedParkingSpot = parkingSpotModelArgumentCaptor.getValue();
 
-        assertThat(capturedParkingSpot.getOwner()).isEqualTo(ParkingSpotUpdateRequest.getOwner());
+        assertThat(capturedParkingSpot.getOwner()).isEqualTo(parkingSpotUpdateRequest.getOwner());
     }
 
     @Test
