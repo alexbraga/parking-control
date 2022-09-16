@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class CarDTO {
     @NotBlank
-    @Size(max = 7)
+    @Size(min = 7, max = 8)
     private String licensePlate;
     @NotBlank
     private String carBrand;
