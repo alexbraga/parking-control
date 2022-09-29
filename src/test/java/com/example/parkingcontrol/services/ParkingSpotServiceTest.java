@@ -9,14 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ParkingSpotServiceTest {
@@ -30,7 +29,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canSaveNewParkingSpot() {
+    void shouldSaveNewParkingSpot() {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         parkingSpot.setId(UUID.randomUUID());
@@ -54,7 +53,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindAllParkingSpots() {
+    void shouldFindAllParkingSpots() {
         // When
         underTest.findAll();
 
@@ -63,7 +62,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindParkingSpotById() {
+    void shouldFindParkingSpotById() {
         // When
         UUID id = UUID.randomUUID();
         underTest.findById(id);
@@ -73,7 +72,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindParkingSpotBySpotNumber() {
+    void shouldFindParkingSpotBySpotNumber() {
         // When
         String parkingSpotNumber = "701-A";
         underTest.findByParkingSpotNumber(parkingSpotNumber);
@@ -83,7 +82,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindParkingSpotByApartment() {
+    void shouldFindParkingSpotByApartment() {
         // When
         String apartment = "701";
         underTest.findByApartment(apartment);
@@ -93,33 +92,33 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindParkingSpotByOwner() {
+    void shouldFindParkingSpotByOwner() {
         // When
         String owner = "Jade";
         underTest.findByOwner(owner);
 
         // Then
-        verify(parkingSpotRepository).findByOwner(owner);
+        verify(parkingSpotRepository).findByOwnerIgnoreCase(owner);
     }
 
     @Test
-    void canFindByIdAndUpdateOneField() {
+    void shouldUpdateOneField() {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        parkingSpot.setId(UUID.randomUUID());
+        parkingSpot.setId(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb"));
         parkingSpot.setParkingSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
         parkingSpot.setRegistrationDate(LocalDateTime.parse("2022-09-03T10:15:30"));
 
-        when(parkingSpotRepository.findById(parkingSpot.getId())).thenReturn(Optional.of(parkingSpot));
-
         // When
         ParkingSpotModel parkingSpotUpdateRequest = new ParkingSpotModel();
-        String owner = "Billy";
-        parkingSpotUpdateRequest.setOwner(owner);
-        underTest.update(parkingSpot.getId(), parkingSpotUpdateRequest);
+        parkingSpotUpdateRequest.setOwner("Billy");
+
+        parkingSpot.setOwner(parkingSpotUpdateRequest.getOwner());
+
+        underTest.save(parkingSpot);
 
         // Then
         ArgumentCaptor<ParkingSpotModel> parkingSpotModelArgumentCaptor = ArgumentCaptor.forClass(ParkingSpotModel.class);
@@ -132,17 +131,15 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindByIdAndUpdateAllFields() {
+    void shouldUpdateAllFields() {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        parkingSpot.setId(UUID.randomUUID());
+        parkingSpot.setId(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb"));
         parkingSpot.setParkingSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
         parkingSpot.setRegistrationDate(LocalDateTime.parse("2022-09-03T10:15:30"));
-
-        when(parkingSpotRepository.findById(parkingSpot.getId())).thenReturn(Optional.of(parkingSpot));
 
         // When
         ParkingSpotModel parkingSpotUpdateRequest = new ParkingSpotModel();
@@ -153,7 +150,9 @@ class ParkingSpotServiceTest {
         parkingSpotUpdateRequest.setOwner("Billy");
         parkingSpotUpdateRequest.setRegistrationDate(parkingSpot.getRegistrationDate());
 
-        underTest.update(parkingSpot.getId(), parkingSpotUpdateRequest);
+        BeanUtils.copyProperties(parkingSpotUpdateRequest, parkingSpot);
+
+        underTest.save(parkingSpot);
 
         // Then
         ArgumentCaptor<ParkingSpotModel> parkingSpotModelArgumentCaptor = ArgumentCaptor.forClass(ParkingSpotModel.class);
@@ -166,7 +165,7 @@ class ParkingSpotServiceTest {
     }
 
     @Test
-    void canFindByIdAndDelete() {
+    void shouldFindByIdAndDelete() {
         // When
         UUID id = UUID.randomUUID();
         underTest.delete(id);

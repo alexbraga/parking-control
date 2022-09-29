@@ -11,5 +11,5 @@ public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, U
 
     Optional<ParkingSpotModel> findByApartment(String apartment);
 
-    Optional<ParkingSpotModel> findByOwner(String owner);
+    Optional<ParkingSpotModel> findByOwnerIgnoreCase(String owner);
 }

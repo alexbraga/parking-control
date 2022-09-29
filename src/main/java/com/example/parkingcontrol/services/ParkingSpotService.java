@@ -20,8 +20,8 @@ public class ParkingSpotService {
     }
 
     @Transactional
-    public void save(ParkingSpotModel parkingSpot) {
-        parkingSpotRepository.save(parkingSpot);
+    public ParkingSpotModel save(ParkingSpotModel parkingSpot) {
+        return parkingSpotRepository.save(parkingSpot);
     }
 
     public List<ParkingSpotModel> findAll() {
@@ -41,21 +41,7 @@ public class ParkingSpotService {
     }
 
     public Optional<ParkingSpotModel> findByOwner(String owner) {
-        return parkingSpotRepository.findByOwner(owner);
-    }
-
-    @Transactional
-    public void update(UUID id, ParkingSpotModel parkingSpotUpdateRequest) {
-        Optional<ParkingSpotModel> parkingSpotToUpdate = parkingSpotRepository.findById(id);
-        ParkingSpotModel parkingSpot = parkingSpotToUpdate.get();
-
-        parkingSpot.setOwner(parkingSpotUpdateRequest.getOwner());
-        parkingSpot.setApartment(parkingSpotUpdateRequest.getApartment());
-        parkingSpot.setBlock(parkingSpotUpdateRequest.getBlock());
-        parkingSpot.setParkingSpotNumber(parkingSpotUpdateRequest.getParkingSpotNumber());
-        parkingSpot.setCar(parkingSpotUpdateRequest.getCar());
-
-        parkingSpotRepository.save(parkingSpot);
+        return parkingSpotRepository.findByOwnerIgnoreCase(owner);
     }
 
     @Transactional
