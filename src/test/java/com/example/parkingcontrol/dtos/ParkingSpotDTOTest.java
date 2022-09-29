@@ -81,7 +81,7 @@ class ParkingSpotDTOTest {
     void invalidOwnerShouldFailValidation() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber("71-A");
+        parkingSpot.setParkingSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner(null);
