@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +34,7 @@ class ParkingSpotServiceTest {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         parkingSpot.setId(UUID.randomUUID());
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -50,6 +51,24 @@ class ParkingSpotServiceTest {
         ParkingSpotModel capturedParkingSpot = parkingSpotModelArgumentCaptor.getValue();
 
         assertThat(capturedParkingSpot).isEqualTo(parkingSpot);
+    }
+
+    @Test
+    void shouldCheckIfSpotNumberExists() {
+        // When
+        underTest.existsBySpotNumber(anyString());
+
+        // Then
+        verify(parkingSpotRepository).existsBySpotNumber(anyString());
+    }
+
+    @Test
+    void shouldCheckIfApartmentAndBlockExists() {
+        // When
+        underTest.existsByApartmentAndBlock(anyString(), anyString());
+
+        // Then
+        verify(parkingSpotRepository).existsByApartmentAndBlock(anyString(), anyString());
     }
 
     @Test
@@ -106,7 +125,7 @@ class ParkingSpotServiceTest {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         parkingSpot.setId(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb"));
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -135,7 +154,7 @@ class ParkingSpotServiceTest {
         // Given
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         parkingSpot.setId(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb"));
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -144,7 +163,7 @@ class ParkingSpotServiceTest {
         // When
         ParkingSpotModel parkingSpotUpdateRequest = new ParkingSpotModel();
         parkingSpotUpdateRequest.setId(parkingSpot.getId());
-        parkingSpotUpdateRequest.setParkingSpotNumber("666-A");
+        parkingSpotUpdateRequest.setSpotNumber("666-A");
         parkingSpotUpdateRequest.setApartment("666");
         parkingSpotUpdateRequest.setBlock("II");
         parkingSpotUpdateRequest.setOwner("Billy");
