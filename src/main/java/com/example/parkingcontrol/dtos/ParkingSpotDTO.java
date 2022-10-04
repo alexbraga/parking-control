@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class ParkingSpotDTO {
     @NotBlank
-    private String parkingSpotNumber;
+    private String spotNumber;
     @NotBlank
     private String owner;
     @NotBlank
@@ -12,12 +12,12 @@ public class ParkingSpotDTO {
     @NotBlank
     private String block;
 
-    public String getParkingSpotNumber() {
-        return parkingSpotNumber;
+    public String getSpotNumber() {
+        return spotNumber;
     }
 
-    public void setParkingSpotNumber(String parkingSpotNumber) {
-        this.parkingSpotNumber = parkingSpotNumber;
+    public void setSpotNumber(String spotNumber) {
+        this.spotNumber = spotNumber;
     }
 
     public String getOwner() {

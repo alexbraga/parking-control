@@ -26,7 +26,7 @@ class ParkingSpotDTOTest {
     void hasNoNullFields() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -39,7 +39,7 @@ class ParkingSpotDTOTest {
     void invalidParkingSpotNumberShouldFailValidation() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber(null);
+        parkingSpot.setSpotNumber(null);
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -53,7 +53,7 @@ class ParkingSpotDTOTest {
     void invalidApartmentShouldFailValidation() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment(null);
         parkingSpot.setBlock("I");
         parkingSpot.setOwner("Jade");
@@ -67,7 +67,7 @@ class ParkingSpotDTOTest {
     void invalidBlockShouldFailValidation() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock(null);
         parkingSpot.setOwner("Jade");
@@ -81,7 +81,7 @@ class ParkingSpotDTOTest {
     void invalidOwnerShouldFailValidation() {
         // Given
         ParkingSpotDTO parkingSpot = new ParkingSpotDTO();
-        parkingSpot.setParkingSpotNumber("701-A");
+        parkingSpot.setSpotNumber("701-A");
         parkingSpot.setApartment("701");
         parkingSpot.setBlock("I");
         parkingSpot.setOwner(null);
