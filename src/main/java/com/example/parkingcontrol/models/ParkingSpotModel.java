@@ -13,16 +13,22 @@ public class ParkingSpotModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false, unique = true, length = 10)
     private String spotNumber;
+
     @Column(nullable = false)
     private LocalDateTime registrationDate;
+
     @Column(nullable = false, length = 130)
     private String owner;
+
     @Column(nullable = false, length = 30)
     private String apartment;
+
     @Column(nullable = false, length = 30)
     private String block;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private CarModel car;

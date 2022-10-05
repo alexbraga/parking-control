@@ -12,14 +12,19 @@ public class CarModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false, unique = true, length = 7)
     private String licensePlate;
+
     @Column(nullable = false, length = 70)
     private String carBrand;
+
     @Column(nullable = false, length = 70)
     private String carModel;
+
     @Column(nullable = false, length = 70)
     private String carColor;
+
     @OneToOne(mappedBy = "car")
     private ParkingSpotModel parkingSpot;
 
