@@ -20,8 +20,8 @@ public class CarService {
     }
 
     @Transactional
-    public void save(CarModel carModel) {
-        carRepository.save(carModel);
+    public CarModel save(CarModel carModel) {
+        return carRepository.save(carModel);
     }
 
     public List<CarModel> findAll() {
@@ -34,19 +34,6 @@ public class CarService {
 
     public Optional<CarModel> findById(UUID id) {
         return carRepository.findById(id);
-    }
-
-    @Transactional
-    public void update(UUID id, CarModel carUpdateRequest) {
-        Optional<CarModel> carToUpdate = carRepository.findById(id);
-        CarModel car = carToUpdate.get();
-
-        car.setCarColor(carUpdateRequest.getCarColor());
-        car.setCarBrand(carUpdateRequest.getCarBrand());
-        car.setCarModel(carUpdateRequest.getCarModel());
-        car.setLicensePlate(carUpdateRequest.getLicensePlate());
-
-        carRepository.save(car);
     }
 
     @Transactional
