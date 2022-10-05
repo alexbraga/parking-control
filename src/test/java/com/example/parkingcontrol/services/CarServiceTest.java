@@ -8,13 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.BeanUtils;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CarServiceTest {
@@ -29,10 +28,10 @@ class CarServiceTest {
     }
 
     @Test
-    void canSaveNewCar() {
+    void shouldSaveNewCar() {
         // Given
         CarModel carModel = new CarModel();
-        carModel.setId(UUID.randomUUID());
+        carModel.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
         carModel.setCarBrand("Toyota");
         carModel.setCarModel("Etios");
         carModel.setCarColor("Silver");
@@ -52,7 +51,7 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindAllCars() {
+    void shouldFindAllCars() {
         // When
         underTest.findAll();
 
@@ -61,9 +60,9 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindById() {
+    void shouldFindById() {
         // When
-        UUID id = UUID.randomUUID();
+        UUID id = UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c");
         underTest.findById(id);
 
         // Then
@@ -71,7 +70,7 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindByLicensePlate() {
+    void shouldFindByLicensePlate() {
         // When
         String licensePlate = "ABC-1234";
         underTest.findByLicensePlate(licensePlate);
@@ -81,23 +80,22 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindAndUpdateOneField() {
+    void shouldUpdateOneField() {
         // Given
         CarModel car = new CarModel();
-        car.setId(UUID.randomUUID());
+        car.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
         car.setCarBrand("Toyota");
         car.setCarModel("Etios");
         car.setCarColor("Silver");
         car.setLicensePlate("ABC-1234");
 
-        when(carRepository.findById(car.getId())).thenReturn(Optional.of(car));
-
         // When
         CarModel carUpdateRequest = new CarModel();
-        String color = "Black";
-        carUpdateRequest.setCarColor(color);
+        carUpdateRequest.setCarColor("Black");
 
-        underTest.update(car.getId(), carUpdateRequest);
+        car.setCarColor(carUpdateRequest.getCarColor());
+
+        underTest.save(car);
 
         // Then
         ArgumentCaptor<CarModel> carModelArgumentCaptor = ArgumentCaptor.forClass(CarModel.class);
@@ -110,16 +108,14 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindAndUpdateAllFields() {
+    void shouldUpdateAllFields() {
         // Given
         CarModel car = new CarModel();
-        car.setId(UUID.randomUUID());
+        car.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
         car.setCarBrand("Toyota");
         car.setCarModel("Etios");
         car.setCarColor("Silver");
         car.setLicensePlate("ABC-1234");
-
-        when(carRepository.findById(car.getId())).thenReturn(Optional.of(car));
 
         // When
         CarModel carUpdateRequest = new CarModel();
@@ -129,7 +125,9 @@ class CarServiceTest {
         carUpdateRequest.setCarColor("Black");
         carUpdateRequest.setLicensePlate("XYZ-9876");
 
-        underTest.update(car.getId(), carUpdateRequest);
+        BeanUtils.copyProperties(carUpdateRequest, car);
+
+        underTest.save(car);
 
         // Then
         ArgumentCaptor<CarModel> carModelArgumentCaptor = ArgumentCaptor.forClass(CarModel.class);
@@ -142,9 +140,9 @@ class CarServiceTest {
     }
 
     @Test
-    void canFindByIdAndDelete() {
+    void shouldFindByIdAndDelete() {
         // WHen
-        UUID id = UUID.randomUUID();
+        UUID id = UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c");
         underTest.delete(id);
 
         // Then
