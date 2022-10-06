@@ -5,12 +5,17 @@ import javax.validation.constraints.NotBlank;
 public class ParkingSpotDTO {
     @NotBlank
     private String spotNumber;
+
     @NotBlank
     private String owner;
+
     @NotBlank
     private String apartment;
+
     @NotBlank
     private String block;
+
+    private CarDTO car;
 
     public String getSpotNumber() {
         return spotNumber;
@@ -42,5 +47,13 @@ public class ParkingSpotDTO {
 
     public void setBlock(String block) {
         this.block = block;
+    }
+
+    public CarDTO getCar() {
+        return car;
+    }
+
+    public void setCar(CarDTO car) {
+        this.car = car;
     }
 }
