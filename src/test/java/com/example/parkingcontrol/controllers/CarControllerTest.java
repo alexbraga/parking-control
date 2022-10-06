@@ -162,4 +162,37 @@ class CarControllerTest {
                .andExpect(jsonPath("$.id", is("3e01ec1b-85c1-4892-bf11-c02eca5b198c")))
                .andExpect(content().string(objectMapper.writeValueAsString(carModel)));
     }
+
+    @Test
+    void shouldFailUpdateWhenInvalidCarDTOSubmitted() throws Exception {
+        // Given
+        CarDTO carDTO = new CarDTO();
+        carDTO.setCarBrand("");
+        carDTO.setCarModel("A1");
+        carDTO.setCarColor("Silver");
+        carDTO.setLicensePlate("GPK-6219");
+
+        // Then
+        mockMvc.perform(put("/cars/update/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(carDTO)))
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldFailUpdateWhenCarNotFound() throws Exception {
+        // Given
+        CarDTO carDTO = new CarDTO();
+        carDTO.setCarBrand("Audi");
+        carDTO.setCarModel("A1");
+        carDTO.setCarColor("Silver");
+        carDTO.setLicensePlate("GPK-6219");
+
+        // Then
+        mockMvc.perform(put("/cars/update/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(carDTO)))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("Car not found."));
+    }
 }
