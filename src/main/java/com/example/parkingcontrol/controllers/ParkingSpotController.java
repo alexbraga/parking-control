@@ -1,7 +1,9 @@
 package com.example.parkingcontrol.controllers;
 
 import com.example.parkingcontrol.dtos.ParkingSpotDTO;
+import com.example.parkingcontrol.models.CarModel;
 import com.example.parkingcontrol.models.ParkingSpotModel;
+import com.example.parkingcontrol.services.CarService;
 import com.example.parkingcontrol.services.ParkingSpotService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ParkingSpotController {
     @Autowired
     ParkingSpotService parkingSpotService;
 
+    @Autowired
+    CarService carService;
+
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDTO parkingSpotDTO) {
         if (parkingSpotService.existsBySpotNumber(parkingSpotDTO.getSpotNumber())) {
@@ -30,11 +35,40 @@ public class ParkingSpotController {
         }
 
         if (parkingSpotService.existsByApartmentAndBlock(parkingSpotDTO.getApartment(), parkingSpotDTO.getBlock())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking Spot is already registered for this apartment and block!");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                                 .body("Conflict: Parking Spot is already registered for this apartment and block!");
         }
 
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+        parkingSpot.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpot));
+    }
+
+    @PostMapping("/car/{carId}")
+    public ResponseEntity<Object> saveParkingSpotAndCar(
+            @PathVariable(value = "carId") UUID id,
+            @RequestBody @Valid ParkingSpotDTO parkingSpotDTO
+    ) {
+        Optional<CarModel> carModelOptional = carService.findById(id);
+
+        if (!carModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
+        }
+
+        if (parkingSpotService.existsBySpotNumber(parkingSpotDTO.getSpotNumber())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking Spot is already in use!");
+        }
+
+        if (parkingSpotService.existsByApartmentAndBlock(parkingSpotDTO.getApartment(), parkingSpotDTO.getBlock())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                                 .body("Conflict: Parking Spot is already registered for this apartment and block!");
+        }
+
+        ParkingSpotModel parkingSpot = new ParkingSpotModel();
+        BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+        parkingSpot.setCar(carModelOptional.get());
         parkingSpot.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpot));
@@ -86,7 +120,10 @@ public class ParkingSpotController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id, @RequestBody @Valid ParkingSpotDTO parkingSpotDTO) {
+    public ResponseEntity<Object> update(
+            @PathVariable(value = "id") UUID id,
+            @RequestBody @Valid ParkingSpotDTO parkingSpotDTO
+    ) {
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
 
         if (!parkingSpotModelOptional.isPresent()) {

@@ -1,7 +1,9 @@
 package com.example.parkingcontrol.controllers;
 
 import com.example.parkingcontrol.dtos.ParkingSpotDTO;
+import com.example.parkingcontrol.models.CarModel;
 import com.example.parkingcontrol.models.ParkingSpotModel;
+import com.example.parkingcontrol.services.CarService;
 import com.example.parkingcontrol.services.ParkingSpotService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,6 +37,9 @@ class ParkingSpotControllerTest {
 
     @MockBean
     ParkingSpotService parkingSpotService;
+
+    @MockBean
+    CarService carService;
 
     @Test
     void shouldSaveNewParkingSpot() throws Exception {
@@ -99,6 +105,60 @@ class ParkingSpotControllerTest {
                                 .content(objectMapper.writeValueAsString(parkingSpotDTO)))
                .andExpect(status().isConflict())
                .andExpect(content().string("Conflict: Parking Spot is already registered for this apartment and block!"));
+    }
+
+    @Test
+    void shouldSaveParkingSpotAndCar() throws Exception {
+        // Given
+        CarModel carModel = new CarModel();
+        UUID carId = UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c");
+        carModel.setId(carId);
+
+        ParkingSpotDTO parkingSpotDTO = new ParkingSpotDTO();
+        parkingSpotDTO.setSpotNumber("701-A");
+        parkingSpotDTO.setApartment("701");
+        parkingSpotDTO.setBlock("I");
+        parkingSpotDTO.setOwner("Jade");
+
+        ParkingSpotModel parkingSpot = new ParkingSpotModel();
+        UUID parkingSpotId = UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb");
+        parkingSpot.setId(parkingSpotId);
+        parkingSpot.setCar(carModel);
+
+        BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+
+        // When
+        Mockito.when(carService.findById(carId)).thenReturn(Optional.of(carModel));
+        Mockito.when(parkingSpotService.save(any(ParkingSpotModel.class))).thenReturn(parkingSpot);
+
+        // Then
+        mockMvc.perform(post("/parking-spot/car/" + carId)
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(parkingSpotDTO)))
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("$.id", is("0a96e04e-b60f-4b69-9524-e221cf341ccb")))
+               .andExpect(jsonPath("car.id", is("3e01ec1b-85c1-4892-bf11-c02eca5b198c")));
+    }
+
+    @Test
+    void shouldFailSavingParkingSpotAndCarWhenCarNotFound() throws Exception {
+        // Given
+        ParkingSpotDTO parkingSpotDTO = new ParkingSpotDTO();
+        parkingSpotDTO.setSpotNumber("701-A");
+        parkingSpotDTO.setApartment("701");
+        parkingSpotDTO.setBlock("I");
+        parkingSpotDTO.setOwner("Jade");
+
+        // When
+        Mockito.when(carService.findById(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c")))
+               .thenReturn(Optional.empty());
+
+        // Then
+        mockMvc.perform(post("/parking-spot/car/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(parkingSpotDTO)))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("Car not found."));
     }
 
     @Test
