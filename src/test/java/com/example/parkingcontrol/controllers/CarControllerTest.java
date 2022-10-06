@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
@@ -82,5 +83,31 @@ class CarControllerTest {
     @Test
     void shouldGetAllCars() throws Exception {
         mockMvc.perform(get("/cars")).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldFindCarById() throws Exception {
+        // Given
+        CarModel carModel = new CarModel();
+        carModel.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
+
+        // When
+        Mockito.when(carService.findById(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"))).thenReturn(
+                Optional.of(carModel));
+
+        // Then
+        mockMvc.perform(get("/cars/3e01ec1b-85c1-4892-bf11-c02eca5b198c")).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldFailWhenCarNotFoundById() throws Exception {
+        // When
+        Mockito.when(carService.findById(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c")))
+               .thenReturn(Optional.empty());
+
+        // Then
+        mockMvc.perform(get("/cars/3e01ec1b-85c1-4892-bf11-c02eca5b198c"))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("Car not found."));
     }
 }

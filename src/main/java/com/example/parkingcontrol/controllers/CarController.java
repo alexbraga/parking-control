@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -34,5 +36,15 @@ public class CarController {
     @GetMapping
     public ResponseEntity<List<CarModel>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(carService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable(value = "id") UUID id) {
+        Optional<CarModel> carModelOptional = carService.findById(id);
+        if (!carModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(carModelOptional.get());
     }
 }
