@@ -19,6 +19,8 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -192,6 +194,35 @@ class CarControllerTest {
         mockMvc.perform(put("/cars/update/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(carDTO)))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("Car not found."));
+    }
+
+    @Test
+    void shouldDeleteCar() throws Exception {
+        // Given
+        UUID id = UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c");
+        CarModel carModel = new CarModel();
+        carModel.setId(id);
+
+        CarService serviceSpy = Mockito.spy(carService);
+
+        // When
+        Mockito.when(carService.findById(id)).thenReturn(Optional.of(carModel));
+        Mockito.doNothing().when(serviceSpy).delete(id);
+
+        // Then
+        mockMvc.perform(delete("/cars/delete/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                                .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().isNoContent());
+
+        verify(carService, times(1)).delete(id);
+    }
+
+    @Test
+    void shouldFailDeleteWhenCarNotFound() throws Exception {
+        mockMvc.perform(delete("/cars/delete/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                               .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isNotFound())
                .andExpect(content().string("Car not found."));
     }

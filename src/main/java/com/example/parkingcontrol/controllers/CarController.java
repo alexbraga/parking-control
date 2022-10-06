@@ -74,4 +74,17 @@ public class CarController {
 
         return ResponseEntity.status(HttpStatus.OK).body(carService.save(carModel));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id) {
+        Optional<CarModel> carModelOptional = carService.findById(id);
+
+        if (!carModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
+        }
+
+        carService.delete(carModelOptional.get().getId());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Car deleted successfully");
+    }
 }
