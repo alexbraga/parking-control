@@ -33,9 +33,9 @@ class CarServiceTest {
         // Given
         CarModel carModel = new CarModel();
         carModel.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
-        carModel.setCarBrand("Toyota");
-        carModel.setCarModel("Etios");
-        carModel.setCarColor("Silver");
+        carModel.setBrand("Toyota");
+        carModel.setModel("Etios");
+        carModel.setColor("Silver");
         carModel.setLicensePlate("ABC-1234");
 
         // When
@@ -94,16 +94,16 @@ class CarServiceTest {
         // Given
         CarModel car = new CarModel();
         car.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
-        car.setCarBrand("Toyota");
-        car.setCarModel("Etios");
-        car.setCarColor("Silver");
+        car.setBrand("Toyota");
+        car.setModel("Etios");
+        car.setColor("Silver");
         car.setLicensePlate("ABC-1234");
 
         // When
         CarModel carUpdateRequest = new CarModel();
-        carUpdateRequest.setCarColor("Black");
+        carUpdateRequest.setColor("Black");
 
-        car.setCarColor(carUpdateRequest.getCarColor());
+        car.setColor(carUpdateRequest.getColor());
 
         underTest.save(car);
 
@@ -114,7 +114,7 @@ class CarServiceTest {
 
         CarModel capturedCar = carModelArgumentCaptor.getValue();
 
-        assertThat(capturedCar.getCarColor()).isEqualTo(carUpdateRequest.getCarColor());
+        assertThat(capturedCar.getColor()).isEqualTo(carUpdateRequest.getColor());
     }
 
     @Test
@@ -122,17 +122,17 @@ class CarServiceTest {
         // Given
         CarModel car = new CarModel();
         car.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
-        car.setCarBrand("Toyota");
-        car.setCarModel("Etios");
-        car.setCarColor("Silver");
+        car.setBrand("Toyota");
+        car.setModel("Etios");
+        car.setColor("Silver");
         car.setLicensePlate("ABC-1234");
 
         // When
         CarModel carUpdateRequest = new CarModel();
         carUpdateRequest.setId(car.getId());
-        carUpdateRequest.setCarModel("A1");
-        carUpdateRequest.setCarBrand("Audi");
-        carUpdateRequest.setCarColor("Black");
+        carUpdateRequest.setModel("A1");
+        carUpdateRequest.setBrand("Audi");
+        carUpdateRequest.setColor("Black");
         carUpdateRequest.setLicensePlate("XYZ-9876");
 
         BeanUtils.copyProperties(carUpdateRequest, car);

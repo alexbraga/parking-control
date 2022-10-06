@@ -67,9 +67,9 @@ public class CarController {
         }
 
         CarModel carModel = carModelOptional.get();
-        carModel.setCarBrand(carModel.getCarBrand());
-        carModel.setCarModel(carModel.getCarModel());
-        carModel.setCarColor(carModel.getCarColor());
+        carModel.setBrand(carModel.getBrand());
+        carModel.setModel(carModel.getModel());
+        carModel.setColor(carModel.getColor());
         carModel.setLicensePlate(carModel.getLicensePlate());
 
         return ResponseEntity.status(HttpStatus.OK).body(carService.save(carModel));

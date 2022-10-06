@@ -17,13 +17,13 @@ public class CarModel implements Serializable {
     private String licensePlate;
 
     @Column(nullable = false, length = 70)
-    private String carBrand;
+    private String brand;
 
     @Column(nullable = false, length = 70)
-    private String carModel;
+    private String model;
 
     @Column(nullable = false, length = 70)
-    private String carColor;
+    private String color;
 
     @OneToOne(mappedBy = "car")
     private ParkingSpotModel parkingSpot;
@@ -44,28 +44,28 @@ public class CarModel implements Serializable {
         this.licensePlate = licensePlate;
     }
 
-    public String getCarBrand() {
-        return carBrand;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getCarModel() {
-        return carModel;
+    public String getModel() {
+        return model;
     }
 
-    public void setCarModel(String carModel) {
-        this.carModel = carModel;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getCarColor() {
-        return carColor;
+    public String getColor() {
+        return color;
     }
 
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public ParkingSpotModel getParkingSpot() {
