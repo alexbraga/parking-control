@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://myparking-control.netlify.app">Parking Control</a>
+  Parking Control
 </h1>
 
 <h3 align="center">
@@ -30,13 +30,13 @@
 
 ## About
 
-<p align="justify">Parking management Spring Boot Rest API with PostgreSQL database and Object-Relational Mapping made with Spring Data JPA (Hibernate). The application features unit tests for dtos, services and controllers, following TDD practices.</p>
+<p align="justify">Parking management Spring Boot REST API with PostgreSQL database and Object-Relational Mapping made with Spring Data JPA (Hibernate). The application features unit tests for dtos, services and controllers, following TDD practices.</p>
 
 ---
 
 ## Features
 
-- Rest API
+- REST API
 - Relational database (PostgreSQL)
 - Object-Relational Mapping
 - JPA with Hibernate
