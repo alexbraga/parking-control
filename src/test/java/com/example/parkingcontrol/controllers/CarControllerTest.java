@@ -19,8 +19,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CarController.class)
@@ -133,5 +132,34 @@ class CarControllerTest {
         mockMvc.perform(get("/cars/license-plate?number=GPK-6219"))
                .andExpect(status().isNotFound())
                .andExpect(content().string("Car not found."));
+    }
+
+    @Test
+    void shouldUpdateCar() throws Exception {
+        // Given
+        CarDTO carDTO = new CarDTO();
+        carDTO.setCarBrand("Audi");
+        carDTO.setCarModel("A1");
+        carDTO.setCarColor("Silver");
+        carDTO.setLicensePlate("GPK-6219");
+
+        CarModel carModel = new CarModel();
+        carModel.setId(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c"));
+
+        // When
+        Mockito.when(carService.findById(UUID.fromString("3e01ec1b-85c1-4892-bf11-c02eca5b198c")))
+               .thenReturn(Optional.of(carModel));
+
+        Mockito.when(carService.save(carModel)).thenReturn(carModel);
+
+        BeanUtils.copyProperties(carDTO, carModel);
+
+        // Then
+        mockMvc.perform(put("/cars/update/3e01ec1b-85c1-4892-bf11-c02eca5b198c")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(carDTO)))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.id", is("3e01ec1b-85c1-4892-bf11-c02eca5b198c")))
+               .andExpect(content().string(objectMapper.writeValueAsString(carModel)));
     }
 }
