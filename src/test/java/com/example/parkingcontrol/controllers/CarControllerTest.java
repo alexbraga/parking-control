@@ -40,9 +40,9 @@ class CarControllerTest {
     void shouldSaveNewCar() throws Exception {
         // Given
         CarDTO carDTO = new CarDTO();
-        carDTO.setCarBrand("Audi");
-        carDTO.setCarModel("A1");
-        carDTO.setCarColor("Silver");
+        carDTO.setBrand("Audi");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
         carDTO.setLicensePlate("GPK-6219");
 
         CarModel carModel = new CarModel();
@@ -65,9 +65,9 @@ class CarControllerTest {
     void shouldFailSavingWhenLicensePlateExists() throws Exception {
         // Given
         CarDTO carDTO = new CarDTO();
-        carDTO.setCarBrand("Audi");
-        carDTO.setCarModel("A1");
-        carDTO.setCarColor("Silver");
+        carDTO.setBrand("Audi");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
         carDTO.setLicensePlate("GPK-6219");
 
         // When
@@ -140,9 +140,9 @@ class CarControllerTest {
     void shouldUpdateCar() throws Exception {
         // Given
         CarDTO carDTO = new CarDTO();
-        carDTO.setCarBrand("Audi");
-        carDTO.setCarModel("A1");
-        carDTO.setCarColor("Silver");
+        carDTO.setBrand("Audi");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
         carDTO.setLicensePlate("GPK-6219");
 
         CarModel carModel = new CarModel();
@@ -169,9 +169,9 @@ class CarControllerTest {
     void shouldFailUpdateWhenInvalidCarDTOSubmitted() throws Exception {
         // Given
         CarDTO carDTO = new CarDTO();
-        carDTO.setCarBrand("");
-        carDTO.setCarModel("A1");
-        carDTO.setCarColor("Silver");
+        carDTO.setBrand("");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
         carDTO.setLicensePlate("GPK-6219");
 
         // Then
@@ -185,9 +185,9 @@ class CarControllerTest {
     void shouldFailUpdateWhenCarNotFound() throws Exception {
         // Given
         CarDTO carDTO = new CarDTO();
-        carDTO.setCarBrand("Audi");
-        carDTO.setCarModel("A1");
-        carDTO.setCarColor("Silver");
+        carDTO.setBrand("Audi");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
         carDTO.setLicensePlate("GPK-6219");
 
         // Then

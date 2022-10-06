@@ -8,11 +8,11 @@ public class CarDTO {
     @Size(min = 7, max = 8)
     private String licensePlate;
     @NotBlank
-    private String carBrand;
+    private String brand;
     @NotBlank
-    private String carModel;
+    private String model;
     @NotBlank
-    private String carColor;
+    private String color;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -22,27 +22,27 @@ public class CarDTO {
         this.licensePlate = licensePlate;
     }
 
-    public String getCarBrand() {
-        return carBrand;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getCarModel() {
-        return carModel;
+    public String getModel() {
+        return model;
     }
 
-    public void setCarModel(String carModel) {
-        this.carModel = carModel;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getCarColor() {
-        return carColor;
+    public String getColor() {
+        return color;
     }
 
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
+    public void setColor(String color) {
+        this.color = color;
     }
 }

@@ -27,9 +27,9 @@ class CarDTOTest {
     void hasNoNullFields() {
         // Given
         CarDTO car = new CarDTO();
-        car.setCarBrand("Toyota");
-        car.setCarModel("Etios");
-        car.setCarColor("Silver");
+        car.setBrand("Toyota");
+        car.setModel("Etios");
+        car.setColor("Silver");
         car.setLicensePlate("ABC-1234");
 
         // Then
@@ -40,9 +40,9 @@ class CarDTOTest {
     void invalidCarBrandShouldFailValidation() {
         // Given
         CarDTO car = new CarDTO();
-        car.setCarBrand(null);
-        car.setCarModel("Etios");
-        car.setCarColor("Silver");
+        car.setBrand(null);
+        car.setModel("Etios");
+        car.setColor("Silver");
         car.setLicensePlate("ABC-1234");
 
         // Then
@@ -54,9 +54,9 @@ class CarDTOTest {
     void invalidCarModelShouldFailValidation() {
         // Given
         CarDTO car = new CarDTO();
-        car.setCarBrand("Toyota");
-        car.setCarModel(null);
-        car.setCarColor("Silver");
+        car.setBrand("Toyota");
+        car.setModel(null);
+        car.setColor("Silver");
         car.setLicensePlate("ABC-1234");
 
         // Then
@@ -68,9 +68,9 @@ class CarDTOTest {
     void invalidCarColorShouldFailValidation() {
         // Given
         CarDTO car = new CarDTO();
-        car.setCarBrand("Toyota");
-        car.setCarModel("Etios");
-        car.setCarColor(null);
+        car.setBrand("Toyota");
+        car.setModel("Etios");
+        car.setColor(null);
         car.setLicensePlate("ABC-1234");
 
         // Then
@@ -82,9 +82,9 @@ class CarDTOTest {
     void invalidLicensePlateShouldFailValidation() {
         // Given
         CarDTO car = new CarDTO();
-        car.setCarBrand("Toyota");
-        car.setCarModel("Etios");
-        car.setCarColor("Silver");
+        car.setBrand("Toyota");
+        car.setModel("Etios");
+        car.setColor("Silver");
         car.setLicensePlate("ABC123");
 
         // Then
