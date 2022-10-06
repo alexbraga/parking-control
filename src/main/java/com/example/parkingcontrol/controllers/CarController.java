@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,6 +42,16 @@ public class CarController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable(value = "id") UUID id) {
         Optional<CarModel> carModelOptional = carService.findById(id);
+        if (!carModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(carModelOptional.get());
+    }
+
+    @GetMapping("/license-plate")
+    public ResponseEntity<Object> findByLicensePlate(@RequestParam(defaultValue = "") String number) {
+        Optional<CarModel> carModelOptional = carService.findByLicensePlate(number);
         if (!carModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
         }

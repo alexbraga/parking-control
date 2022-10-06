@@ -110,4 +110,28 @@ class CarControllerTest {
                .andExpect(status().isNotFound())
                .andExpect(content().string("Car not found."));
     }
+
+    @Test
+    void shouldFindCarByLicensePlate() throws Exception {
+        // Given
+        CarModel carModel = new CarModel();
+        carModel.setLicensePlate("GPK-6219");
+
+        // When
+        Mockito.when(carService.findByLicensePlate("GPK-6219")).thenReturn(Optional.of(carModel));
+
+        // Then
+        mockMvc.perform(get("/cars/license-plate?number=GPK-6219")).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldFailWhenCarNotFoundByLicensePlate() throws Exception {
+        // When
+        Mockito.when(carService.findByLicensePlate("GPK-6219")).thenReturn(Optional.empty());
+
+        // Then
+        mockMvc.perform(get("/cars/license-plate?number=GPK-6219"))
+               .andExpect(status().isNotFound())
+               .andExpect(content().string("Car not found."));
+    }
 }
