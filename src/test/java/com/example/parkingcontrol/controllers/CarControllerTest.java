@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -76,5 +77,10 @@ class CarControllerTest {
                                 .content(objectMapper.writeValueAsString(carDTO)))
                .andExpect(status().isConflict())
                .andExpect(content().string("Conflict: License plate is already in use!"));
+    }
+
+    @Test
+    void shouldGetAllCars() throws Exception {
+        mockMvc.perform(get("/cars")).andExpect(status().isOk());
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,5 +29,10 @@ public class CarController {
         BeanUtils.copyProperties(carDTO, carModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(carService.save(carModel));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CarModel>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(carService.findAll());
     }
 }
