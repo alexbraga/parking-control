@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,6 +58,15 @@ class CarServiceTest {
 
         // Then
         verify(carRepository).findAll();
+    }
+
+    @Test
+    void shouldCheckIfLicensePlateExists() {
+        // When
+        underTest.existsByLicensePlate(anyString());
+
+        // Then
+        verify(carRepository).existsByLicensePlate(anyString());
     }
 
     @Test
