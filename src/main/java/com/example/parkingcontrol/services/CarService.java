@@ -24,6 +24,10 @@ public class CarService {
         return carRepository.save(carModel);
     }
 
+    public boolean existsByLicensePlate(String licensePlate) {
+        return carRepository.existsByLicensePlate(licensePlate);
+    }
+
     public List<CarModel> findAll() {
         return carRepository.findAll();
     }

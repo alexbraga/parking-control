@@ -19,8 +19,7 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CarController.class)
 @ActiveProfiles("test")
@@ -57,5 +56,25 @@ class CarControllerTest {
                                 .content(objectMapper.writeValueAsString(carDTO)))
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$.id", is("3e01ec1b-85c1-4892-bf11-c02eca5b198c")));
+    }
+
+    @Test
+    void shouldFailSavingWhenLicensePlateExists() throws Exception {
+        // Given
+        CarDTO carDTO = new CarDTO();
+        carDTO.setCarBrand("Audi");
+        carDTO.setCarModel("A1");
+        carDTO.setCarColor("Silver");
+        carDTO.setLicensePlate("GPK-6219");
+
+        // When
+        Mockito.when(carService.existsByLicensePlate(carDTO.getLicensePlate())).thenReturn(true);
+
+        // Then
+        mockMvc.perform(post("/cars")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(carDTO)))
+               .andExpect(status().isConflict())
+               .andExpect(content().string("Conflict: License plate is already in use!"));
     }
 }

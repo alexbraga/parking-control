@@ -20,6 +20,10 @@ public class CarController {
 
     @PostMapping
     public ResponseEntity<Object> saveCar(@RequestBody @Valid CarDTO carDTO) {
+        if (carService.existsByLicensePlate(carDTO.getLicensePlate())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: License plate is already in use!");
+        }
+
         CarModel carModel = new CarModel();
         BeanUtils.copyProperties(carDTO, carModel);
 
