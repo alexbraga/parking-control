@@ -13,7 +13,7 @@ public class CarModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, unique = true, length = 7)
+    @Column(nullable = false, unique = true, length = 8)
     private String licensePlate;
 
     @Column(nullable = false, length = 70)
@@ -24,9 +24,6 @@ public class CarModel implements Serializable {
 
     @Column(nullable = false, length = 70)
     private String color;
-
-    @OneToOne(mappedBy = "car")
-    private ParkingSpotModel parkingSpot;
 
     public UUID getId() {
         return id;
@@ -66,13 +63,5 @@ public class CarModel implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public ParkingSpotModel getParkingSpot() {
-        return parkingSpot;
-    }
-
-    public void setParkingSpot(ParkingSpotModel parkingSpot) {
-        this.parkingSpot = parkingSpot;
     }
 }
