@@ -15,6 +15,8 @@ public class ParkingSpotDTO {
     @NotBlank
     private String block;
 
+    private CarDTO car;
+
     public String getSpotNumber() {
         return spotNumber;
     }
@@ -45,5 +47,13 @@ public class ParkingSpotDTO {
 
     public void setBlock(String block) {
         this.block = block;
+    }
+
+    public CarDTO getCar() {
+        return car;
+    }
+
+    public void setCar(CarDTO car) {
+        this.car = car;
     }
 }
