@@ -15,6 +15,10 @@ public class ParkingSpotService {
     @Autowired
     ParkingSpotRepository parkingSpotRepository;
 
+    public ParkingSpotService() {
+
+    }
+
     public ParkingSpotService(ParkingSpotRepository parkingSpotRepository) {
         this.parkingSpotRepository = parkingSpotRepository;
     }
