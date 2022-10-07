@@ -1,5 +1,6 @@
 package com.example.parkingcontrol.controllers;
 
+import com.example.parkingcontrol.dtos.CarDTO;
 import com.example.parkingcontrol.dtos.ParkingSpotDTO;
 import com.example.parkingcontrol.models.CarModel;
 import com.example.parkingcontrol.models.ParkingSpotModel;
@@ -267,22 +268,33 @@ class ParkingSpotControllerTest {
     @Test
     void shouldUpdateParkingSpot() throws Exception {
         // Given
+        CarDTO carDTO = new CarDTO();
+        carDTO.setBrand("Audi");
+        carDTO.setModel("A1");
+        carDTO.setColor("Silver");
+        carDTO.setLicensePlate("GPK-6219");
+
+        CarModel carModel = new CarModel();
+        BeanUtils.copyProperties(carDTO, carModel);
+
         ParkingSpotDTO parkingSpotDTO = new ParkingSpotDTO();
         parkingSpotDTO.setSpotNumber("701-A");
         parkingSpotDTO.setApartment("701");
         parkingSpotDTO.setBlock("I");
         parkingSpotDTO.setOwner("Jade");
+        parkingSpotDTO.setCar(carDTO);
 
         ParkingSpotModel parkingSpot = new ParkingSpotModel();
         parkingSpot.setId(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb"));
+        parkingSpot.setCar(carModel);
+
+        BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
 
         // When
         Mockito.when(parkingSpotService.findById(UUID.fromString("0a96e04e-b60f-4b69-9524-e221cf341ccb")))
                .thenReturn(Optional.of(parkingSpot));
 
-        Mockito.when(parkingSpotService.save(parkingSpot)).thenReturn(parkingSpot);
-
-        BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+        Mockito.when(parkingSpotService.save(any(ParkingSpotModel.class))).thenReturn(parkingSpot);
 
         // Then
         mockMvc.perform(put("/parking-spot/update/0a96e04e-b60f-4b69-9524-e221cf341ccb")
