@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, UUID> {
-    Optional<ParkingSpotModel> findByParkingSpotNumber(String spotNumber);
+    Optional<ParkingSpotModel> findBySpotNumber(String spotNumber);
 
     Optional<ParkingSpotModel> findByApartment(String apartment);
 

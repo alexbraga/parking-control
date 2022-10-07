@@ -199,7 +199,7 @@ class ParkingSpotControllerTest {
         parkingSpot.setSpotNumber("701-A");
 
         // When
-        Mockito.when(parkingSpotService.findByParkingSpotNumber("701-A")).thenReturn(Optional.of(parkingSpot));
+        Mockito.when(parkingSpotService.findBySpotNumber("701-A")).thenReturn(Optional.of(parkingSpot));
 
         // Then
         mockMvc.perform(get("/parking-spot/spot-number?spot=701-A")).andExpect(status().isOk());
@@ -208,7 +208,7 @@ class ParkingSpotControllerTest {
     @Test
     void shouldFailWhenParkingSpotNotFoundBySpotNumber() throws Exception {
         // When
-        Mockito.when(parkingSpotService.findByParkingSpotNumber("701")).thenReturn(Optional.empty());
+        Mockito.when(parkingSpotService.findBySpotNumber("701")).thenReturn(Optional.empty());
 
         // Then
         mockMvc.perform(get("/parking-spot/spot-number?spot=701"))

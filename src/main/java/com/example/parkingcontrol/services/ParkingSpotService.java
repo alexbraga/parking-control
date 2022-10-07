@@ -40,8 +40,8 @@ public class ParkingSpotService {
         return parkingSpotRepository.findById(id);
     }
 
-    public Optional<ParkingSpotModel> findByParkingSpotNumber(String parkingSpotNumber) {
-        return parkingSpotRepository.findByParkingSpotNumber(parkingSpotNumber);
+    public Optional<ParkingSpotModel> findBySpotNumber(String spotNumber) {
+        return parkingSpotRepository.findBySpotNumber(spotNumber);
     }
 
     public Optional<ParkingSpotModel> findByApartment(String apartment) {

@@ -94,10 +94,10 @@ class ParkingSpotServiceTest {
     void shouldFindParkingSpotBySpotNumber() {
         // When
         String parkingSpotNumber = "701-A";
-        underTest.findByParkingSpotNumber(parkingSpotNumber);
+        underTest.findBySpotNumber(parkingSpotNumber);
 
         // Then
-        verify(parkingSpotRepository).findByParkingSpotNumber(parkingSpotNumber);
+        verify(parkingSpotRepository).findBySpotNumber(parkingSpotNumber);
     }
 
     @Test

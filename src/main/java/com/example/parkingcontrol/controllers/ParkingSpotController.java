@@ -91,7 +91,7 @@ public class ParkingSpotController {
 
     @GetMapping("/spot-number")
     public ResponseEntity<Object> findBySpotNumber(@RequestParam(defaultValue = "") String spot) {
-        Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findByParkingSpotNumber(spot);
+        Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findBySpotNumber(spot);
         if (!parkingSpotModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking spot not found.");
         }
