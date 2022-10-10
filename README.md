@@ -49,7 +49,7 @@
 ## Todo
 
 - [x] Fix update method for ParkingSpotController
-- [ ] Fix registration date format for parking spot
+- [x] Fix registration date format for parking spot
 - [ ] Complete endpoints section on README
 - [ ] Add integration tests
 
