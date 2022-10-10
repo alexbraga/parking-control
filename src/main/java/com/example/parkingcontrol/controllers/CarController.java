@@ -2,6 +2,7 @@ package com.example.parkingcontrol.controllers;
 
 import com.example.parkingcontrol.dtos.CarDTO;
 import com.example.parkingcontrol.models.CarModel;
+import com.example.parkingcontrol.models.ParkingSpotModel;
 import com.example.parkingcontrol.services.CarService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,13 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not found.");
         }
 
+        if (carModelOptional.get().getParkingSpot() != null) {
+            ParkingSpotModel parkingSpot = carModelOptional.get().getParkingSpot();
+            parkingSpot.removeChild();
+        }
+
         carService.delete(carModelOptional.get().getId());
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Car deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("Car deleted successfully.");
     }
 }

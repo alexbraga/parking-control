@@ -153,6 +153,6 @@ public class ParkingSpotController {
 
         parkingSpotService.delete(parkingSpotModelOptional.get().getId());
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Parking spot deleted successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body("Parking spot deleted successfully.");
     }
 }

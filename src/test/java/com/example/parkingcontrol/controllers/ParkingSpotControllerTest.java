@@ -354,7 +354,8 @@ class ParkingSpotControllerTest {
         // Then
         mockMvc.perform(delete("/parking-spot/delete/0a96e04e-b60f-4b69-9524-e221cf341ccb")
                                 .contentType("application/json"))
-               .andExpect(status().isNoContent());
+               .andExpect(status().isOk())
+               .andExpect(content().string("Parking spot deleted successfully."));
 
         verify(parkingSpotService, times(1)).delete(id);
     }
