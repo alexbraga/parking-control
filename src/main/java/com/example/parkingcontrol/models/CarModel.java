@@ -1,5 +1,7 @@
 package com.example.parkingcontrol.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
@@ -24,6 +26,11 @@ public class CarModel implements Serializable {
 
     @Column(nullable = false, length = 70)
     private String color;
+
+    @JsonIgnoreProperties("car")
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "parking_spot_id")
+    private ParkingSpotModel parkingSpot;
 
     public UUID getId() {
         return id;
@@ -63,5 +70,13 @@ public class CarModel implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public ParkingSpotModel getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public void setParkingSpot(ParkingSpotModel parkingSpot) {
+        this.parkingSpot = parkingSpot;
     }
 }

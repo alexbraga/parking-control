@@ -128,8 +128,11 @@ public class ParkingSpotController {
         }
 
         CarModel carModel = new CarModel();
-        carModel.setId(parkingSpotModelOptional.get().getCar().getId());
         BeanUtils.copyProperties(parkingSpotDTO.getCar(), carModel);
+
+        if (parkingSpotModelOptional.get().getCar() != null) {
+            carModel.setId(parkingSpotModelOptional.get().getCar().getId());
+        }
 
         ParkingSpotModel parkingSpot = parkingSpotModelOptional.get();
         BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);

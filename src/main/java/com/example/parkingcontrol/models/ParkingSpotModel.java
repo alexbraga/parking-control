@@ -1,5 +1,7 @@
 package com.example.parkingcontrol.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,8 +31,8 @@ public class ParkingSpotModel implements Serializable {
     @Column(nullable = false, length = 30)
     private String block;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id")
+    @JsonIgnoreProperties("parkingSpot")
+    @OneToOne(mappedBy = "parkingSpot", cascade = CascadeType.ALL, orphanRemoval = true)
     private CarModel car;
 
     public UUID getId() {
@@ -87,5 +89,10 @@ public class ParkingSpotModel implements Serializable {
 
     public void setCar(CarModel car) {
         this.car = car;
+        car.setParkingSpot(this);
+    }
+
+    public void removeChild() {
+        this.car = null;
     }
 }
