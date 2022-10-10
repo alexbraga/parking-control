@@ -48,8 +48,8 @@
 
 ## Todo
 
-- [x] Fix update method for ParkingSpotController
-- [x] Fix registration date format for parking spot
+- [x] Set date and time format to UTC globally
+- [ ] Add pagination to GET requests
 - [ ] Complete endpoints section on README
 - [ ] Add integration tests
 
