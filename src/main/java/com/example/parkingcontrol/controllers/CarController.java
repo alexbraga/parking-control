@@ -67,10 +67,8 @@ public class CarController {
         }
 
         CarModel carModel = carModelOptional.get();
-        carModel.setBrand(carModel.getBrand());
-        carModel.setModel(carModel.getModel());
-        carModel.setColor(carModel.getColor());
-        carModel.setLicensePlate(carModel.getLicensePlate());
+        BeanUtils.copyProperties(carDTO, carModel);
+        carModel.setId(carModelOptional.get().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(carService.save(carModel));
     }
