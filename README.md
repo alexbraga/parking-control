@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  Parking management application
+  Parking management application for condos
 </h3>
 
 <p align="center">
