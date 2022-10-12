@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  Parking management system application
+  Parking management application
 </h3>
 
 <p align="center">
