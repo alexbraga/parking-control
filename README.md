@@ -8,8 +8,6 @@
 
 <p align="center">
   <a href="https://github.com/alexbraga/parking-control/commits/master"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alexbraga/parking-control"></a>
-  <!-- <a href="https://heroku.com"><img alt="Heroku build status" src="https://img.shields.io/github/deployments/alexbraga/parking-control/parking-control-server?label=heroku&logo=heroku"></a> -->
-  <!-- <a href="https://app.netlify.com"><img alt="Netlify build status" src="https://img.shields.io/netlify/d51f97e2-2c56-44a0-9b2d-bb4449b84098?logo=netlify"></a> -->
   <!-- <a href="https://github.com/alexbraga/parking-control/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/alexbraga/parking-control?label=license"></a> -->
 </p>
 
@@ -30,7 +28,7 @@
 
 ## About
 
-<p align="justify">Parking management Spring Boot REST API with PostgreSQL database and Object-Relational Mapping made with Spring Data JPA (Hibernate). The application features unit tests for dtos, services and controllers, following TDD practices.</p>
+<p align="justify">Parking management Spring Boot REST API with PostgreSQL database and Object-Relational Mapping made with Spring Data JPA (Hibernate). The application features unit tests for DTOs, services and controllers. The development followed TDD principles.</p>
 
 ---
 
@@ -60,8 +58,9 @@
 1. <a href="#clone-this-repository">Clone this repository</a>
 2. <a href="#set-the-environment-variables">Set the environment variables</a>
 3. <a href="#running-the-application">Run the application</a>
+4. <a href="#api-endpoints">API Endpoints</a>
 
-#### Pre-requisites
+### Pre-requisites
 
 Before getting started, you will need to have the following tools installed on your machine:
 
@@ -72,13 +71,13 @@ Before getting started, you will need to have the following tools installed on y
 In addition, you might also want an IDE to work with the code, like
 [IntelliJ IDEA](https://www.jetbrains.com/idea/).
 
-#### Clone this repository
+### Clone this repository
 
 ```
 git clone https://github.com/alexbraga/parking-control.git
 ```
 
-#### Set the environment variables
+### Set the environment variables
 - Create `parking-control/server/src/main/resources/application.properties` and set the environment variables:
 
 ```
@@ -90,24 +89,28 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 ```
 
-#### Running the application
+### Running the application
 
-```bash
-# Go to the application root folder
-$ cd parking-control/
-
-# Install the dependencies and build the application
-$ mvn install
-
-# Run the application
-$ mvn spring-boot:run
+Navigate to the root directory of the project
+```
+cd parking-control
 ```
 
-- Alternatively, open `parking-control/` with your preferred IDE and run `ParkingControlApplication.java`
+Build the project
+```
+mvn compile
+```
+
+Run the application
+```
+mvn spring-boot:run
+```
+
+- Alternatively, open the project folder with your preferred IDE and run `/src/main/java/com/example/parkingcontrol/ParkingControlApplication.java`
 
 - The server will start at `localhost:8080`
 
-#### API Endpoints
+### API Endpoints
 
 Soon
 
